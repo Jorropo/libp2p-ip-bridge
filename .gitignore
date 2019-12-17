@@ -4,7 +4,7 @@
 *.dll
 *.so
 *.dylib
-libp2p-ip-bridge
+**/main
 
 # Test binary, built with `go test -c`
 *.test
@@ -13,4 +13,4 @@ libp2p-ip-bridge
 *.out
 
 # Dependency directories (remove the comment below to include it)
-# vendor/
+vendor/
