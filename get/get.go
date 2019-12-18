@@ -17,7 +17,7 @@ import (
 func Get(toRead string, dht *kaDht.IpfsDHT) ([]byte, error) {
 	id, err := peer.Decode(toRead)
 	if err != nil {
-		return nil, fmt.Errorf("can't decode id: %s\n")
+		return nil, fmt.Errorf("can't decode id: %s\n", err)
 	}
 
 	val, err := dht.GetValue(context.Background(), ipns.RecordKey(id))
