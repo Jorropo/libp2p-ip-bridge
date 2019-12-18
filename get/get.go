@@ -2,7 +2,7 @@ package get
 
 import (
 	"context"
-	"log"
+	"fmt"
 
 	"github.com/libp2p/go-libp2p-core/peer"
 
@@ -14,22 +14,22 @@ import (
 	proto "github.com/gogo/protobuf/proto"
 )
 
-func Get(toRead string, dht *kaDht.IpfsDHT) []byte {
+func Get(toRead string, dht *kaDht.IpfsDHT) ([]byte, error) {
 	id, err := peer.Decode(toRead)
 	if err != nil {
-		log.Fatalf("can't decode id: %s\n")
+		return nil, fmt.Errorf("can't decode id: %s\n")
 	}
 
 	val, err := dht.GetValue(context.Background(), ipns.RecordKey(id))
 	if err != nil {
-		log.Fatalf("can't get value of the dht: %s\n", err)
+		return nil, fmt.Errorf("can't get value of the dht: %s\n", err)
 	}
 
 	ent := &ipnsPb.IpnsEntry{}
 	err = proto.Unmarshal(val, ent)
 	if err != nil {
-		log.Fatalf("can't get decode the result: %s\n", err)
+		return nil, fmt.Errorf("can't get decode the result: %s\n", err)
 	}
 
-	return ent.GetValue()
+	return ent.GetValue(), nil
 }

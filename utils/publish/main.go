@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"log"
+	"net"
 
 	"github.com/libp2p/go-libp2p"
 	"github.com/libp2p/go-libp2p-crypto"
@@ -27,7 +28,7 @@ func main() {
 
 	host, dht := bootstrap.GetNode(uint16(*libp2pListenPort), libp2p.Identity(priv))
 
-	put.Put(priv, pub, host, dht, []byte(*toPublish))
+	put.Put(priv, pub, host, dht, net.ParseIP(*toPublish).To4())
 
 	log.Printf("Serving %s\n", host.ID().Pretty())
 	select {}
