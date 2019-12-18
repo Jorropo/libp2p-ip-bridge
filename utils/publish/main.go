@@ -28,7 +28,12 @@ func main() {
 
 	host, dht := bootstrap.GetNode(uint16(*libp2pListenPort), libp2p.Identity(priv))
 
-	put.Put(priv, pub, host, dht, net.ParseIP(*toPublish).To4())
+	ip := net.ParseIP(*toPublish)
+	if ip.To4() != nil { // Minimising to ip4 if possible.
+		ip = ip.To4()
+	}
+
+	put.Put(priv, pub, host, dht, ip)
 
 	log.Printf("Serving %s\n", host.ID().Pretty())
 	select {}

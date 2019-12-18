@@ -22,9 +22,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("%s\n", err)
 	}
-	if len(addr) != 4 {
-		log.Fatalf("Wrong bytes count: %d\n", len(addr))
-	}
 
-	log.Printf("Got %s\n", net.IPv4(addr[0], addr[1], addr[2], addr[3]).String())
+	log.Printf("Got %s\n", net.IP(addr).String())
 }
